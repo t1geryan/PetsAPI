@@ -13,7 +13,8 @@ data class Product(
     val price: Int,
     val taste: String,
     val weight: Double,
-    val imageName: String,
+    val imageURL: String,
+    val rating: Double,
     val discount: Int?,
     val currencyCode: String
 )
