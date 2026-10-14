@@ -7,6 +7,12 @@ import io.ktor.server.routing.get
 
 fun Routing.getProducts() {
     get("/products/") {
-        call.respond(ProductsStore.getProducts())
+        val connection = call.request.local
+        val host = connection.serverHost.let {
+            if (':' in it && !it.startsWith("[")) "[$it]" else it
+        }
+        val baseURL = System.getenv("PUBLIC_BASE_URL")?.takeIf { it.isNotBlank() }
+            ?: "${connection.scheme}://$host:${connection.serverPort}"
+        call.respond(ProductsStore.getProducts(baseURL))
     }
 }
